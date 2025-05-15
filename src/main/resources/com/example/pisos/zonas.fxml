@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane prefHeight="221.0" prefWidth="439.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pisos.Zonas">
+<AnchorPane prefHeight="221.0" prefWidth="439.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pisos.Controller.ZonaController">
    <children>
       <Label layoutX="66.0" layoutY="71.0" text="Id zona" />
       <Label layoutX="66.0" layoutY="140.0" text="Nombre" />

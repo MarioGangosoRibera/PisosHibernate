@@ -9,10 +9,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
@@ -177,6 +174,18 @@ public class PisoController implements Initializable {
                 cbIdZona.setValue(zona.getNombre());
             }
         }
+    }
+
+    @FXML
+    void onClickZonas(ActionEvent event) {
+        String nombreZonaSeleccionada = cbIdZona.getValue();
+        if(nombreZonaSeleccionada == null || nombreZonaSeleccionada.isEmpty()){
+            StaticCode.Alerts("ERROR", "Zona no seleccionada","ERROR",
+                    "Seleccionado una zona antes de continuar");
+            return;
+        }
+        Button sourceButton = (Button) event.getSource();
+        StaticCode.cambiarVistaZonas("zonas.fxml", sourceButton, nombreZonaSeleccionada, "Detalle de zona");
     }
 
     private void refreshTable() {

@@ -1,6 +1,7 @@
 package com.example.pisos.utilities;
 
 import com.example.pisos.App;
+import com.example.pisos.Controller.ZonaController;
 import com.example.pisos.Model.Piso;
 import com.example.pisos.Controller.PisoController;
 import javafx.fxml.FXMLLoader;
@@ -36,6 +37,26 @@ public class StaticCode {
         // VERIFICAR SI HAY VALOR EN EL COMBOBOX
         return combobox.getSelectionModel().getSelectedItem() != null;
     } // METODO PARA COMPROBAR CAMPOS VACIOS
+
+    public static void cambiarVistaZonas(String nameFxml, Button button, String nombreZona, String title) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(nameFxml));
+            Parent root = fxmlLoader.load();
+
+            ZonaController controller = fxmlLoader.getController();
+            controller.cargarZonaPorNombre(nombreZona);
+
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) button.getScene().getWindow();
+            stage.setTitle(title);
+            stage.setScene(scene);
+            if (!stage.isShowing()) {
+                stage.show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void cambiarVistaBtt(String nameFxml, Button button, Piso piso, String title) {
         try {
