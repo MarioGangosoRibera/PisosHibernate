@@ -70,4 +70,5 @@ public class StaticCode {
             session.close(); // CERRAR SESION
         }
     } // SALIR DE LA APLICACIÓN
+
 }

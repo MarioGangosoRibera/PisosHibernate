@@ -46,6 +46,16 @@ public class PisoController implements Initializable {
     PisoDAO pisoDAO = new PisoDAO();
     ZonaDAO zonaDAO = new ZonaDAO();
 
+    private int obtenerIdZonaDesdeNombre(String nombreZona) {
+        switch (nombreZona) {
+            case "Centro": return 1;
+            case "Parquesol": return 2;
+            case "Delicias": return 3;
+            case "Rondilla": return 4;
+            default: return 0;
+        }
+    }
+
     @FXML
     void onClickAlta(ActionEvent event) {
         try {
@@ -96,8 +106,57 @@ public class PisoController implements Initializable {
 
     @FXML
     void onClickModificar(ActionEvent event) {
+        Piso seleccionada = tableView.getSelectionModel().getSelectedItem(); // Obtener piso seleccionado
 
+        // Verificar si hay un piso seleccionado
+        if (seleccionada != null) {
+            // Verificar si hay campos vacíos
+            if (StaticCode.camposVacios(cbIdZona, txtIdPiso, txtDireccion)) {
+
+                String nuevaDireccion = txtDireccion.getText();
+                String nuevaZonaNombre = cbIdZona.getValue();
+
+                // Verificar si los campos han cambiado respecto al objeto original
+                boolean direccionIgual = nuevaDireccion.equals(seleccionada.getDireccion());
+                boolean zonaIgual = nuevaZonaNombre.equals(seleccionada.getZona().getNombre());
+
+                if (direccionIgual && zonaIgual) {
+                    StaticCode.Alerts("INFORMATION", "Sin cambios", "Información",
+                            "Los campos no han cambiado. No se realizó ninguna modificación.");
+                    return;
+                }
+
+                // Crear nuevo objeto Piso modificado
+                Piso pisoModificar = new Piso();
+                pisoModificar.setIdPiso(seleccionada.getIdPiso());
+                pisoModificar.setDireccion(nuevaDireccion);
+
+                Zona zona = new Zona();
+                zona.setIdZona(obtenerIdZonaDesdeNombre(nuevaZonaNombre));
+                zona.setNombre(nuevaZonaNombre);
+                pisoModificar.setZona(zona);
+
+                // Modificar el piso en la base de datos
+                if (pisoDAO.modificarPiso(pisoModificar)) {
+                    StaticCode.Alerts("INFORMATION", "Modificar Piso", "Información",
+                            "Se han modificado los datos del piso correctamente.");
+                    onClickLimpiar(null); // Limpiar campos
+                    refreshTable();       // Refrescar tabla
+                } else {
+                    StaticCode.Alerts("ERROR", "Error al modificar", "¡ERROR!",
+                            "No se pudo modificar el piso.");
+                }
+
+            } else {
+                StaticCode.Alerts("ERROR", "Campo vacío", "¡ERROR!",
+                        "Por favor, rellene todos los datos del formulario.");
+            }
+        } else {
+            StaticCode.Alerts("ERROR", "Piso no seleccionado", "¡ERROR!",
+                    "Por favor, seleccione un piso para modificar.");
+        }
     }
+
 
 
     @FXML
