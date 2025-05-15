@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="221.0" prefWidth="439.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pisos.Zonas">
+   <children>
+      <Label layoutX="66.0" layoutY="71.0" text="Id zona" />
+      <Label layoutX="66.0" layoutY="140.0" text="Nombre" />
+      <TextField fx:id="txtIdZona" layoutX="145.0" layoutY="67.0" prefHeight="25.0" prefWidth="81.0" />
+      <TextField fx:id="txtNombre" layoutX="145.0" layoutY="136.0" />
+   </children>
+</AnchorPane>
