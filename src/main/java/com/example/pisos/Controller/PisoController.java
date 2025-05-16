@@ -6,6 +6,7 @@ import com.example.pisos.Model.Piso;
 import com.example.pisos.Model.Zona;
 import com.example.pisos.utilities.StaticCode;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -39,19 +40,8 @@ public class PisoController implements Initializable {
     @FXML
     private TextField txtIdPiso;
 
-    String[] listaZonas = {"Centro", "Parquesol", "Delicias", "Rondilla"};
     PisoDAO pisoDAO = new PisoDAO();
     ZonaDAO zonaDAO = new ZonaDAO();
-
-    private int obtenerIdZonaDesdeNombre(String nombreZona) {
-        switch (nombreZona) {
-            case "Centro": return 1;
-            case "Parquesol": return 2;
-            case "Delicias": return 3;
-            case "Rondilla": return 4;
-            default: return 0;
-        }
-    }
 
     @FXML
     void onClickAlta(ActionEvent event) {
@@ -128,9 +118,12 @@ public class PisoController implements Initializable {
                 pisoModificar.setIdPiso(seleccionada.getIdPiso());
                 pisoModificar.setDireccion(nuevaDireccion);
 
-                Zona zona = new Zona();
-                zona.setIdZona(obtenerIdZonaDesdeNombre(nuevaZonaNombre));
-                zona.setNombre(nuevaZonaNombre);
+                Zona zona = zonaDAO.obtenerZonaPorNombre(nuevaZonaNombre);
+                if (zona == null){
+                    StaticCode.Alerts("ERROR", "Zona no válida", "¡ERROR!",
+                            "La zona seleccionada no existe en la base de datos.");
+                    return;
+                }
                 pisoModificar.setZona(zona);
 
                 // Modificar el piso en la base de datos
@@ -192,9 +185,17 @@ public class PisoController implements Initializable {
         tableView.setItems(pisoDAO.listarPisos());
     }
 
+    private void cargarZonasEnCombobox(){
+        ObservableList<Zona> zonas = zonaDAO.listarZonas();
+        for (Zona zona : zonas){
+            cbIdZona.getItems().add(zona.getNombre());
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cbIdZona.getItems().addAll(listaZonas);
+
+        cargarZonasEnCombobox();
 
         tcIdPiso.setCellValueFactory(new PropertyValueFactory<>("idPiso"));
         tcDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
