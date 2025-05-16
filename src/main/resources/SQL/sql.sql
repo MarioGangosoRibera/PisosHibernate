@@ -1,5 +1,8 @@
+-- Eliminar la base de datos si ya existe
+DROP DATABASE IF EXISTS inmobiliaria;
+
 -- Crear la base de datos
-CREATE DATABASE IF NOT EXISTS inmobiliaria;
+CREATE DATABASE inmobiliaria;
 USE inmobiliaria;
 
 -- Crear tabla zonas
@@ -19,7 +22,8 @@ CREATE TABLE pisos (
 -- Insertar datos en zonas
 INSERT INTO zonas (nombre) VALUES
                                ('Centro'),
-                               ('Parquesol');
+                               ('Parquesol'),
+                               ('Delicias');
 
 -- Insertar datos en pisos (relacionados con las zonas)
 INSERT INTO pisos (direccion, idZona) VALUES
