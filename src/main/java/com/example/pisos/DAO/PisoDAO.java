@@ -39,6 +39,7 @@ public class PisoDAO implements InterfacePiso{
             Piso existente = session.get(Piso.class, piso.getIdPiso());
 
             existente.setDireccion(piso.getDireccion());
+            existente.setZona(piso.getZona());
 
             session.update(existente);
             session.getTransaction().commit();
